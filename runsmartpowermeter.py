@@ -3,7 +3,7 @@
 import datetime
 import json
 from flask import Flask,render_template,request
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import * 
 import threading
 import time
 import serial
@@ -12,7 +12,7 @@ import sys #fosys.stdout.flush()  #
 
 serialPort = "/dev/ttyUSB0"
 serialBaudrate = 9600
-serverPort = 80
+serverPort = 8000
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = r'sqlite:///c:\One Driver-kkgg\OneDrive\kangx_sf\sqlite_db_pm\pmdb.db'
@@ -91,22 +91,27 @@ def addpm2dbf(val=0,val2=0,val3=0,val4=0):
     pow_r_fmt = []
     eng_r_fmt = []
     while True:
-        with serial.Serial(serialPort,serialBaudrate, timeout=2) as ser:
+        with serial.Serial(serialPort,serialBaudrate, timeout=1) as ser:
             x = ser.write(cmd_f_vol)
             vol_r_fmt = hex2dec(ser.read(7))          # read up to ten bytes (timeout)
+            time.sleep(0.01)
             x = ser.write(cmd_f_cur)
             cur_r_fmt = hex2dec(ser.read(7))        # read up to ten bytes (timeout)
+
+            time.sleep(0.01)
             x = ser.write(cmd_f_pow)
             pow_r_fmt = hex2dec(ser.read(7))        # read up to ten bytes (timeout)
+
+            time.sleep(0.01)
             x = ser.write(cmd_f_eng)
             eng_r_fmt = hex2dec(ser.read(7))
-        pt("Fetch one data!")
+        pt("Fetch five data!")
         try:
             val  = float(vol_r_fmt[1] *256  + vol_r_fmt[2] + 0.1*vol_r_fmt[3] )
-            val2 = float(cur_r_fmt[2] + 0.1*cur_r_fmt[3] )
+            val2 = float(cur_r_fmt[2] + 0.01*cur_r_fmt[3] )
             val3 = float(pow_r_fmt[1] *256  + pow_r_fmt[2])
             val4 = float(eng_r_fmt[1] *65536 + eng_r_fmt[2]*256 + eng_r_fmt[3])
-            pt(str(val))
+            pt(str(val))#,str(val2),str(val3),str(val4))
 
             db.create_all()
             now = datetime.datetime.now()
