@@ -1,0 +1,385 @@
+<link rel="stylesheet" href="/static/main.css">
+<link rel="stylesheet" href="/static/bt.min.css">
+<link rel="stylesheet" href="/static/font.css">
+<script type="text/javascript" src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/static/echarts_theme.js"></script>
+<body>
+<header class="header-section clearfix">
+      <!-- Start Navigation -->
+      <nav id="mainNav" class="navbar navbar-expand-lg fixed-top hornbill-navbar bg-sharp background" data-sr-id="1" style="; visibility: visible;  -webkit-transform: translateY(0) scale(1); opacity: 1;transform: translateY(0) scale(1); opacity: 1;-webkit-transition: -webkit-transform 1s cubic-bezier(0.6, 0.2, 0.1, 1) 0s, opacity 1s cubic-bezier(0.6, 0.2, 0.1, 1) 0s; transition: transform 1s cubic-bezier(0.6, 0.2, 0.1, 1) 0s, opacity 1s cubic-bezier(0.6, 0.2, 0.1, 1) 0s; ">
+          <div class="container">
+              <a class="navbar-brand js-scroll-trigger" href="#page_top">Smart power meter</a>
+              <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+                      <i class="fa fa-align-justify"></i>
+                  </span>
+              </button>
+
+              <div class="collapse navbar-collapse" id="navbarResponsive">
+                  <ul class="navbar-nav ml-auto hornbill-nav">
+                      <li class="nav-item">
+                          <a class="nav-link js-scroll-trigger"  href="https://github.com/kangkoilxu/smartpowermeter">源码</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link js-scroll-trigger"  href="https://github.com/kangkoilxu">作者</a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </nav>
+      <!-- End of Navigation -->
+  </header>
+<section id="example" class="blog-section p-top-125 p-bot-90 p-sm-top-100 p-sm-bot-100">
+    <div class="container">
+        <div class="row">
+                    <div class="col-md-6">
+                        <div class="card single-blog m-bot-30 fadeIn" data-sr-id="3" style="; visibility: visible;  -webkit-transform: translateY(0) scale(1); opacity: 1;transform: translateY(0) scale(1); opacity: 1;-webkit-transition: all 0.3s ease-in-out 0s, -webkit-transform 1.2s cubic-bezier(0.6, 0.2, 0.1, 1) 0s, opacity 1.2s cubic-bezier(0.6, 0.2, 0.1, 1) 0s; transition: all 0.3s ease-in-out 0s, transform 1.2s cubic-bezier(0.6, 0.2, 0.1, 1) 0s, opacity 1.2s cubic-bezier(0.6, 0.2, 0.1, 1) 0s; ">
+                            <div class="" style="padding-bottom:10px"></div>
+                            <div id="window_4244111" class="card-img-top single-blog-img"  style="  width:100%;height: 260px;"></div>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                  交流电压表
+                                </h4>
+                                <p>交流工作电压：80～260VAC</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end of single blog -->
+                    <div class="col-md-6">
+                        <div class="card single-blog m-bot-30 fadeIn" data-sr-id="4" style="; visibility: visible;  -webkit-transform: translateY(0) scale(1); opacity: 1;transform: translateY(0) scale(1); opacity: 1;-webkit-transition: all 0.3s ease-in-out 0s, -webkit-transform 1.2s cubic-bezier(0.6, 0.2, 0.1, 1) 0s, opacity 1.2s cubic-bezier(0.6, 0.2, 0.1, 1) 0s; transition: all 0.3s ease-in-out 0s, transform 1.2s cubic-bezier(0.6, 0.2, 0.1, 1) 0s, opacity 1.2s cubic-bezier(0.6, 0.2, 0.1, 1) 0s; ">
+                            <div class="" style="padding-bottom:10px"></div>
+                            <div id="window_4244112" class="card-img-top single-blog-img"  style="  width:100%;height: 260px;"></div>
+                            <div class="card-body"><h4 class="card-title">
+                                  交流电流表
+                                </h4>
+                                <p>交流工作电流：0~100A</p>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card single-blog m-bot-30 fadeIn" data-sr-id="3" style="; visibility: visible;  -webkit-transform: translateY(0) scale(1); opacity: 1;transform: translateY(0) scale(1); opacity: 1;-webkit-transition: all 0.3s ease-in-out 0s, -webkit-transform 1.2s cubic-bezier(0.6, 0.2, 0.1, 1) 0s, opacity 1.2s cubic-bezier(0.6, 0.2, 0.1, 1) 0s; transition: all 0.3s ease-in-out 0s, transform 1.2s cubic-bezier(0.6, 0.2, 0.1, 1) 0s, opacity 1.2s cubic-bezier(0.6, 0.2, 0.1, 1) 0s; ">
+                        <div class="" style="padding-bottom:10px"></div>
+                        <div id="window_4244113" class="card-img-top single-blog-img"  style="  width:100%;height: 260px;"></div>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                交流功率表
+                            </h4>
+                            <p>交流功率表量程0~22kW</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- end of single blog -->
+                <!-- end of single blog -->
+                <div class="col-md-6">
+                    <div class="card single-blog m-bot-30 fadeIn" data-sr-id="5" style="; visibility: visible;  -webkit-transform: translateY(0) scale(1); opacity: 1;transform: translateY(0) scale(1); opacity: 1;-webkit-transition: all 0.3s ease-in-out 0s, -webkit-transform 1.2s cubic-bezier(0.6, 0.2, 0.1, 1) 0s, opacity 1.2s cubic-bezier(0.6, 0.2, 0.1, 1) 0s; transition: all 0.3s ease-in-out 0s, transform 1.2s cubic-bezier(0.6, 0.2, 0.1, 1) 0s, opacity 1.2s cubic-bezier(0.6, 0.2, 0.1, 1) 0s; ">
+                        <div class="" style="padding-bottom:10px"></div>
+                        <div id="window_4244114" class="card-img-top single-blog-img"  style="  width:100%;height: 260px;"></div>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                              交流电量表
+                            </h4>
+                            <p>交流电量表量程：0~9999kWh</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- end of single blog -->
+              </div>
+              <!-- end of second row -->
+              </div>
+              <!-- end of container -->
+</section>
+</body>
+<script type="text/javascript">
+  var dom1 = document.getElementById("window_4244111");
+  var dom2 = document.getElementById("window_4244112");
+  var dom3 = document.getElementById("window_4244113");
+  var dom4 = document.getElementById("window_4244114");
+  var Voltage_Chart = echarts.init(dom1,"wonderland");
+  var Current_Chart = echarts.init(dom2,"wonderland");
+  var Power_Chart = echarts.init(dom3,"wonderland");
+  var Energy_Chart = echarts.init(dom4,"wonderland");
+  var app = {};
+  var data = [];
+  var data2 = [];
+  var data3 = [];
+  var data4 = [];
+  var vol;
+  var curr;
+  var pow;
+  var eng;
+  var myDate = new Date();
+  var mytime = myDate.toLocaleString( );
+  var dtarray = [mytime,0];
+  data.push(dtarray);
+  data2.push(dtarray);
+  data3.push(dtarray);
+  data4.push(dtarray);
+
+  option = {
+      title: {
+          text: vol
+      },
+      tooltip: {
+          trigger: 'axis',
+          formatter: function (params) {
+              params = params[0];
+              var date = new Date(params.value[0]);
+              return "<h1>"+ date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1] +"</h1>";
+          },
+          axisPointer: {
+              animation: true
+          }
+      },
+      xAxis: {
+          type: 'time',
+          splitLine: {
+              show: true
+          },
+          splitNumber:8
+      },
+      yAxis: {
+          type: 'value',
+          splitLine: {
+            show: true
+          }
+      },
+      series: [{
+          name: '模拟数据',
+          type: 'line',
+          showSymbol: true,
+          hoverAnimation: false,
+          data: data,
+          areaStyle: {
+            color:"#3fb1e3"
+          },
+          lineStyle:{
+            color:"#3fb1e3"
+          }
+      }
+      ]
+  };
+  option2 = {
+      title: {
+          text: curr
+      },
+      tooltip: {
+          trigger: 'axis',
+          formatter: function (params) {
+              params = params[0];
+              var date = new Date(params.value[0]);
+              return "<h1>"+ date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1] +"</h1>";
+          },
+          axisPointer: {
+              animation: true
+          }
+      },
+      xAxis: {
+          type: 'time',
+          splitLine: {
+              show: true
+          },
+          splitNumber:8
+      },
+      yAxis: {
+          type: 'value',
+          splitLine: {
+            show: true
+          }
+      },
+      series: [{
+          name: '模拟数据',
+          type: 'line',
+          showSymbol: true,
+          hoverAnimation: false,
+          data: data2,
+          areaStyle: {
+            color:"#6be6c1"
+          },
+          lineStyle:{
+            color:"##6be6c1"
+          }
+      }]
+  };
+  option3 = {
+      title: {
+          text: pow
+      },
+      tooltip: {
+          trigger: 'axis',
+          formatter: function (params) {
+              params = params[0];
+              var date = new Date(params.value[0]);
+              return "<h1>"+ date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1] +"</h1>";
+          },
+          axisPointer: {
+              animation: true
+          }
+      },
+      xAxis: {
+          type: 'time',
+          splitLine: {
+              show: true
+          },
+          splitNumber:8
+
+      },
+      yAxis: {
+          type: 'value',
+          splitLine: {
+            show: true
+          }
+      },
+      series: [{
+          name: '模拟数据',
+          type: 'line',
+          showSymbol: true,
+          hoverAnimation: false,
+          data: data3,
+          areaStyle: {
+            color:"#626c91"
+          },
+          lineStyle:{
+            color:"#626c91"
+          }
+      }]
+  };
+  option4 = {
+      title: {
+          text: eng
+      },
+      tooltip: {
+          trigger: 'axis',
+          formatter: function (params) {
+              params = params[0];
+              var date = new Date(params.value[0]);
+              return "<h1>"+ date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1] +"</h1>";
+          },
+          axisPointer: {
+              animation: true
+          }
+      },
+      xAxis: {
+          type: 'time',
+          splitLine: {
+              show: true
+          },
+          splitNumber:8
+      },
+      yAxis: {
+          type: 'value',
+          splitLine: {
+            show: true
+          }
+      },
+      series: [{
+          name: '模拟数据',
+          type: 'line',
+          showSymbol: true,
+          hoverAnimation: false,
+          data: data4,
+          areaStyle: {
+            color:"#a0a7e6"
+          },
+          lineStyle:{
+            color:"#a0a7e6"
+          }
+      }]
+  };
+
+  setInterval( function() {
+    $.ajax({
+     type : "get",
+  //       async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+     url : "/power",    //请求发送到Servlet处
+  //       data : {},
+     dataType : "json",        //返回数据形式为json
+     success : function(result) {
+         //请求成功时执行该函数内容，result即为服务器返回的json对象
+         if (result) {
+         vol = "   " + result.voltage.toString() + "V";
+         curr = "   " +result.current.toString() + "A";
+         pow = "   " +result.power.toString() + "W";
+         eng = "   " +result.energy.toString() + "KWh";
+         data.push([result.date,result.voltage] );
+         var i = 0;
+         var ll= 0;
+         if (data.length > 20){
+           ll = data.length - 20;
+           for (;i< ll;i+= 1){
+             data.shift();
+           }
+         }
+         data2.push([result.date,result.current]);
+         if (data2.length > 20){
+           ll = data2.length - 20;
+           for (i=0;i< ll;i+= 1){
+             data2.shift();
+           }
+         }
+         data3.push([result.date,result.power]);
+         if (data3.length > 20){
+           ll = data3.length - 20;
+           for (i=0;i< ll;i+= 1){
+             data3.shift();
+           }
+         }
+         data4.push([result.date,result.energy]);
+         if (data4.length > 20){
+           ll = data4.length - 20;
+           for (i=0;i< ll;i+= 1){
+             data4.shift();
+           }
+         }
+
+         console.log(data);
+         Voltage_Chart.setOption({
+             title: {
+              text: vol
+            },
+             series: [{
+                 data: data
+             }]
+         });
+         Current_Chart.setOption({
+            title: {
+              text: curr
+              },
+             series: [{
+                 data: data2
+             }]
+         });
+         Power_Chart.setOption({
+            title: {
+              text: pow
+            },
+             series: [{
+                 data: data3
+             }]
+         });
+         Energy_Chart.setOption({
+              title: {
+              text: eng
+            },
+             series: [{
+                 data: data4
+             }]
+         });
+       }
+    },
+     error : function(errorMsg) {
+         alert("图表请求数据失败!");
+     }
+  })
+},4000);
+// end of get power data
+// end of ajax
+  if (option && typeof option === "object") {
+      Voltage_Chart.setOption(option, true);
+      Current_Chart.setOption(option2, true);
+      Power_Chart.setOption(option3, true);
+      Energy_Chart.setOption(option4, true);
+  }
+</script>
