@@ -72,7 +72,7 @@ def hex2dec(hexa): #hex array
 	for i in hexa:
 		tempa.append(int(binascii.hexlify(i).decode('utf-8'),16))
 	return tempa
-    
+
 # 更新数据库函数
 def addpm2dbf(val=0,val2=0,val3=0,val4=0):
     # cmd_f_pal = [0xB5, 0xC0, 0xA8, 0x01, 0x01, 0x14, 0x33]
@@ -86,7 +86,7 @@ def addpm2dbf(val=0,val2=0,val3=0,val4=0):
     pow_r_fmt = []
     eng_r_fmt = []
     while True:
-        with serial.Serial('COM4', 9600, timeout=2) as ser:
+        with serial.Serial('/dev/ttyUSB0', 9600, timeout=2) as ser:
             x = ser.write(cmd_f_vol)
             vol_r_fmt = hex2dec(ser.read(7))          # read up to ten bytes (timeout)
             x = ser.write(cmd_f_cur)
