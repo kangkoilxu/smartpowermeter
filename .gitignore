@@ -1,3 +1,4 @@
-*old
-*tags
+#templates/old.html
+*.tags*
+
 
