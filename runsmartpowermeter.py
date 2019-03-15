@@ -15,7 +15,6 @@ serialBaudrate = 9600
 serverPort = 8000
 
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = r'sqlite:///c:\One Driver-kkgg\OneDrive\kangx_sf\sqlite_db_pm\pmdb.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = r'sqlite:///pmdb.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
@@ -154,7 +153,7 @@ def index():
 # 运行
 if __name__ == '__main__':
     addpm2dbt = threading.Thread(target = addpm2dbf) #
-    addpm2dbt.setDaemon(True)#设置为后台线程，这里默认是False，设置为True之后则主线程不用等待子线程
-    addpm2dbt.start()#开启线程
+    addpm2dbt.setDaemon(True)
+    addpm2dbt.start()
     app.debug = True
     app.run('127.0.0.1', serverPort)
