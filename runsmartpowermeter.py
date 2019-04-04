@@ -3,16 +3,21 @@
 import datetime
 import json
 from flask import Flask,render_template,request
-from flask_sqlalchemy import * 
+from flask_sqlalchemy import *
 import threading
 import time
 import serial
 import binascii
 import sys #fosys.stdout.flush()  #
+import paho.mqtt.publish as publish
+from websocket_server import WebsocketServer
 
 serialPort = "/dev/ttyUSB0"
 serialBaudrate = 9600
 serverPort = 8000
+
+wsport = 9002
+wskey = "Fetch One"
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = r'sqlite:///pmdb.db'
@@ -28,16 +33,6 @@ class User(db.Model):
         self.email = email
     def __repr__(self):
         return '<User %r>' % self.name
-
-class PM_data(db.Model):
-    id = db.Column(db.Integer,primary_key=True)
-    dt = db.Column(db.DateTime,unique=True)
-    val = db.Column(db.Float)
-    dtp = db.Column(db.String(32))
-    def __init__(self,dt,dtp,val):
-        self.dt = dt
-        self.dtp = dtp
-        self.val = val
 
 class Power(db.Model):
     id = db.Column(db.Integer,primary_key=True)
@@ -75,8 +70,8 @@ def hex2dec(hexa): #hex array
 	for i in hexa:
 		tempa.append(int(binascii.hexlify(i).decode('utf-8'),16))
 	return tempa
-    #return [ int(binascii.hexlify(i).decode('utf-8'),16) for i in hexa] 
-    
+    #return [ int(binascii.hexlify(i).decode('utf-8'),16) for i in hexa]
+
 # 更新数据库函数
 def addpm2dbf(val=0,val2=0,val3=0,val4=0):
     # cmd_f_pal = [0xB5, 0xC0, 0xA8, 0x01, 0x01, 0x14, 0x33]
@@ -90,7 +85,9 @@ def addpm2dbf(val=0,val2=0,val3=0,val4=0):
     pow_r_fmt = []
     eng_r_fmt = []
     while True:
-        with serial.Serial(serialPort,serialBaudrate, timeout=1) as ser:
+        try:
+            ser  = serial.Serial(serialPort,serialBaudrate, timeout=1)
+        # with serial.Serial(serialPort,serialBaudrate, timeout=1) as ser:
             x = ser.write(cmd_f_vol)
             vol_r_fmt = hex2dec(ser.read(7))          # read up to ten bytes (timeout)
             time.sleep(0.01)
@@ -104,23 +101,29 @@ def addpm2dbf(val=0,val2=0,val3=0,val4=0):
             time.sleep(0.01)
             x = ser.write(cmd_f_eng)
             eng_r_fmt = hex2dec(ser.read(7))
-        pt("Fetch five data!")
+        except :
+            pass
+        # pt("Fetched five data!")
         try:
             val  = float(vol_r_fmt[1] *256  + vol_r_fmt[2] + 0.1*vol_r_fmt[3] )
             val2 = float(cur_r_fmt[2] + 0.01*cur_r_fmt[3] )
             val3 = float(pow_r_fmt[1] *256  + pow_r_fmt[2])
             val4 = float(eng_r_fmt[1] *65536 + eng_r_fmt[2]*256 + eng_r_fmt[3])
             pt(str(val))#,str(val2),str(val3),str(val4))
-
+            json_val = json.dumps( {"kwh": val4, "voltage": val, "current": val2, "power": val3 } )
+            # send to mqtt server
+            publish.single("sensor/sartpowermeter/1", str(json_val), hostname="broker.hivemq.com")
+            #save to database
             db.create_all()
             now = datetime.datetime.now()
+            #    def __init__(self,dt,kwh,voltage,freq,current,pfactor,power):
             pd = Power(now,val4,val,50.0,val2,1.0,val3)
             db.session.add(pd)
             db.session.commit()
         except:
             pass
         time.sleep(1)
-# 查询
+# ajax
 @app.route('/power')
 def cpw():
     nowstr = ""
@@ -129,31 +132,48 @@ def cpw():
     nowstr = datetime.datetime.strftime(data.dt,'%Y-%m-%d %H:%M:%S')
     pwdict.update( {"date":nowstr,"voltage":data.voltage,"current":data.current,"power":data.power,"energy":data.kwh } )
     return json.dumps(pwdict)
-# 查询
-@app.route('/user')
-def users():
-    users = User.query.all()
-    return "<br>".join(["{0}: {1}".format(user.name, user.email) for user in users])
-# 查询
-@app.route('/user/<int:id>')
-def user(id):
-    user = User.query.filter_by(id=id).one()
-    return "{0}: {1}".format(user.name, user.email)
 
-@app.route('/add/<string:name>')
-def add(name):
-    db.create_all()
-    admin = User(name, name+'@example.com')
-    db.session.add(admin)
-    db.session.commit()
-    return "success!"
 @app.route('/')
 def index():
     return render_template('main.html')
+
+# Called for every client connecting (after handshake)
+def new_client(client, server):
+	# print("New client connected and was given id %d" % client['id'])
+	# server.send_message_to_all("Hey all, a new client has joined us")
+    pass
+# Called for every client disconnecting
+def client_left(client, server):
+	# print("Client(%d) disconnected" % client['id'])
+    pass
+# Called when a client sends a message
+def message_received(client, server, message):
+	if len(message) > 200:
+		message = message[:200]+'..'
+        if message == wskey :
+            nowstr = ""
+            pwdict = {}
+            data = db.session.query(Power).order_by(Power.id.desc()).first()
+            nowstr = datetime.datetime.strftime(data.dt,'%Y-%m-%d %H:%M:%S')
+            server.send_message( client,  json.dumps( {"date":nowstr,"voltage":data.voltage,"current":data.current,"power":data.power,"energy":data.kwh } ))
+        else :
+            print ( "* Wrong Key!")
+	# print("Client(%d) said: %s" % (client['id'], message))
+
+def launch_ws():
+    server = WebsocketServer(wsport)
+    server.set_fn_new_client(new_client)
+    server.set_fn_client_left(client_left)
+    server.set_fn_message_received(message_received)
+    server.run_forever()
+
 # 运行
 if __name__ == '__main__':
     addpm2dbt = threading.Thread(target = addpm2dbf) #
     addpm2dbt.setDaemon(True)
     addpm2dbt.start()
+    wsthread = threading.Thread(target= launch_ws)
+    wsthread.setDaemon = True
+    wsthread.start()
     app.debug = True
     app.run('127.0.0.1', serverPort)

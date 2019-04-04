@@ -4,7 +4,7 @@
 <script type="text/javascript" src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/static/echarts_theme.js"></script>
-<body>
+<body onload="init();">
 <header class="header-section clearfix">
       <!-- Start Navigation -->
       <nav id="mainNav" class="navbar navbar-expand-lg fixed-top hornbill-navbar bg-sharp background" data-sr-id="1" style="; visibility: visible;  -webkit-transform: translateY(0) scale(1); opacity: 1;transform: translateY(0) scale(1); opacity: 1;-webkit-transition: -webkit-transform 1s cubic-bezier(0.6, 0.2, 0.1, 1) 0s, opacity 1s cubic-bezier(0.6, 0.2, 0.1, 1) 0s; transition: transform 1s cubic-bezier(0.6, 0.2, 0.1, 1) 0s, opacity 1s cubic-bezier(0.6, 0.2, 0.1, 1) 0s; ">
@@ -99,7 +99,7 @@
                 <div class="row">
                     <div class="col-sm-4 m-top-15">
                         <h6>
-                             
+
                         </h6>
                     </div>
 
@@ -112,7 +112,7 @@
 
                     <div class="col-sm-4 m-top-15 text-lg-right">
                         <h6>
-                            
+
                         </h6>
                     </div>
                 </div>
@@ -120,7 +120,7 @@
         </div>
         <!-- End of footer bottom -->
     </footer>
-    
+
 </body>
 <script type="text/javascript">
   var dom1 = document.getElementById("window_4244111");
@@ -143,6 +143,7 @@
   var myDate = new Date();
   var mytime = myDate.toLocaleString( );
   var dtarray = [mytime,0];
+  var ws;
   data.push(dtarray);
   data2.push(dtarray);
   data3.push(dtarray);
@@ -318,7 +319,93 @@
           }
       }]
   };
+  function init(){
+      ws = new WebSocket("ws://localhost:9002/");
+      ws.onmessage = function(e) {
+        // e.data contains received string.
+        console.log("onmessage: " + e.data);
+        set_data(e.data);
+      };
+  }
+  setInterval(
+    function(){
+      ws.send("Fetch One");
+    }
+    ,2000
+  )
+  function set_data(result){
+    if (result) {
+    result = JSON.parse(result);
+    vol = "   " + result.voltage.toString() + "V";
+    curr = "   " +result.current.toString() + "A";
+    pow = "   " +result.power.toString() + "W";
+    eng = "   " +result.energy.toString() + "Wh";
+    data.push([result.date,result.voltage] );
+    var i = 0;
+    var ll= 0;
+    if (data.length > 20){
+      ll = data.length - 20;
+      for (;i< ll;i+= 1){
+        data.shift();
+      }
+    }
+    data2.push([result.date,result.current]);
+    if (data2.length > 20){
+      ll = data2.length - 20;
+      for (i=0;i< ll;i+= 1){
+        data2.shift();
+      }
+    }
+    data3.push([result.date,result.power]);
+    if (data3.length > 20){
+      ll = data3.length - 20;
+      for (i=0;i< ll;i+= 1){
+        data3.shift();
+      }
+    }
+    data4.push([result.date,result.energy]);
+    if (data4.length > 20){
+      ll = data4.length - 20;
+      for (i=0;i< ll;i+= 1){
+        data4.shift();
+      }
+    }
 
+    console.log(data);
+    Voltage_Chart.setOption({
+        title: {
+         text: vol
+       },
+        series: [{
+            data: data
+        }]
+    });
+    Current_Chart.setOption({
+       title: {
+         text: curr
+         },
+        series: [{
+            data: data2
+        }]
+    });
+    Power_Chart.setOption({
+       title: {
+         text: pow
+       },
+        series: [{
+            data: data3
+        }]
+    });
+    Energy_Chart.setOption({
+         title: {
+         text: eng
+       },
+        series: [{
+            data: data4
+        }]
+    });
+    }
+  }
   setInterval( function() {
     $.ajax({
      type : "get",
